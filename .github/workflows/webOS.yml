@@ -11,9 +11,11 @@ jobs:
       matrix:
         include:
           - name: "GCC build"
-            CC: gcc
-            CXX: g++
     steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake
     - name: Download webOS NDK
       uses: robinraju/release-downloader@v1.11
       with:
@@ -44,7 +46,7 @@ jobs:
     - name: Configure
       run: |
         . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
-        cmake \
+        /usr/bin/cmake \
           -B ${app_id}/build \
           -DADDONS_TO_BUILD=${app_id} \
           -DADDON_SRC_PREFIX=${{ github.workspace }} \
